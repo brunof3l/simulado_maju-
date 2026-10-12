@@ -1,0 +1,125 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Simulado Pediatria</title><style>
+:root{--bg:#f7f7f5;--fg:#1c1c1a;--card:#fff;--bd:#d9d9d4;--ac:#1f5fbf;--ok:#1a7f3c;--no:#c0302b;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#161615;--fg:#eee;--card:#222220;--bd:#3a3a36;--ac:#6ea3f5;--ok:#4cc474;--no:#f0716b}}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 system-ui,sans-serif}
+main{max-width:680px;margin:auto;padding:16px}
+.c{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:16px;margin:12px 0}
+button{font:inherit;color:inherit;background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:12px;width:100%;text-align:left;margin:6px 0;cursor:pointer}
+button.p{background:var(--ac);color:#fff;text-align:center;border:0}
+.s{border-color:var(--ac);outline:2px solid var(--ac)}
+.bar{height:6px;background:var(--bd);border-radius:3px}.bar i{display:block;height:6px;background:var(--ac);border-radius:3px}
+.ok{color:var(--ok)}.no{color:var(--no)}small{opacity:.7}
+</style></head><body><main id="a"></main><script>
+const Q=[
+["Icterícia neonatal torna-se visível clinicamente quando a bilirrubina ultrapassa:","2 mg/dL|5 mg/dL|12 mg/dL|20 mg/dL",1,"A icterícia é visível a partir de ~5 mg/dL, com progressão céfalo-caudal."],
+["Hiperbilirrubinemia FISIOLÓGICA do RN:","Início <24h e pico no 1º dia|Início após 24h, pico no 3º–5º dia, declínio até o 7º dia|Início após 7 dias, pico no 14º|Predomínio de bilirrubina direta",1,"Fisiológica: sempre após 24h, pico 3º–5º dia, declina até o 7º (termo) ou 14º (pré-termo), só indireta."],
+["Limites máximos fisiológicos de BT (termo e pré-termo):","15 e 12 mg/dL|12 e 15 mg/dL|10 e 12 mg/dL|20 e 25 mg/dL",1,"Termo: 12 mg/dL; pré-termo: 15 mg/dL."],
+["Qual é característica de icterícia PATOLÓGICA?","Pico no 4º dia|Elevação >0,2 mg/dL/h ou início antes de 24h|Apenas bilirrubina indireta|Ausência de doença associada",1,"Patológica: pode iniciar antes de 24h, subir >0,2 mg/dL/h, ultrapassar limites, ser direta ou indireta e vir com sintomas."],
+["Sequência correta da formação da bilirrubina:","Heme → biliverdina → (biliverdina redutase) → bilirrubina indireta|Heme → bilirrubina direta → biliverdina|Globina → bilirrubina indireta|Heme → estercobilina → biliverdina",0,"O heme gera biliverdina, convertida pela biliverdina redutase em bilirrubina indireta; no fígado a glicuronil transferase a conjuga (direta)."],
+["Crigler-Najjar tipo 1 corresponde a:","Deficiência leve de UDP-GT|Ausência total de UDP-glicuronil transferase|Defeito do transportador MRP2|Hipotireoidismo congênito",1,"Tipo 1: ausência total da enzima; tipo 2: atividade diminuída; Gilbert: deficiência leve."],
+["Síndromes de Rotor e Dubin-Johnson causam:","Hiperbilirrubinemia indireta por hemólise|Hiperbilirrubinemia direta por defeito de transporte (MRP2, AR)|Colestase extra-hepática obstrutiva|Deficiência de G6PD",1,"São defeitos genéticos autossômicos recessivos do transporte da bilirrubina direta do hepatócito ao ducto biliar."],
+["NÃO é causa pré-hepática de icterícia:","Esferocitose|Deficiência de G6PD|Cefalo-hematoma|Hepatite neonatal",3,"Hepatite é causa hepática (direta). As outras aumentam a produção de bilirrubina por hemólise ou reabsorção de sangue."],
+["Fatores associados à policitemia neonatal:","RN GIG apenas|RN PIG, filho de mãe diabética, transfusão feto-fetal ou materno-fetal|Prematuridade extrema|Incompatibilidade Rh",1,"Esses cenários aumentam a massa eritrocitária e a carga de bilirrubina."],
+["Sobre incompatibilidade Rh × ABO:","Rh: mãe Rh–/RN Rh+, a partir da 2ª gestação, Coombs +; ABO: mãe O/RN A ou B, qualquer gestação, Coombs neg. ou fraco+|ABO exige Coombs fortemente positivo e profilaxia|Rh independe da paridade|ABO é sempre grave e trata-se com exsanguineotransfusão",0,"Rh é mais grave e exige profilaxia; ABO costuma ser leve, tratado com fototerapia e sem profilaxia."],
+["Imunoglobulina anti-D é indicada:","Ao RN com 24h de vida|Com 28 semanas e até 72h após o parto se RN Rh+|Somente na incompatibilidade ABO|Após o 7º dia pós-parto",1,"Mãe Rh negativa não sensibilizada: 28 semanas e até 72h pós-parto se RN Rh+."],
+["O kernicterus resulta da impregnação de bilirrubina em:","Córtex occipital|Gânglios da base|Medula espinhal|Hipófise",1,"A bilirrubina indireta tem afinidade pelo tecido nervoso e impregna os gânglios da base (BT >20 mg/dL na encefalopatia aguda)."],
+["Escore de BIND: classificação de disfunção moderada:","1–3|4–6|7–9|0",1,"1–3 leve, 4–6 moderado, 7–9 grave."],
+["Zonas de Kramer: zona 3 e zona 5, respectivamente:","Cabeça/pescoço; tronco até umbigo|Hipogástrio e coxas; mãos e pés incluindo palmas e plantas|Tronco até umbigo; joelhos até tornozelos|Joelhos/cotovelos até punhos/tornozelos; hipogástrio",1,"Z1 cabeça/pescoço; Z2 até umbigo; Z3 hipogástrio e coxas; Z4 até punhos/tornozelos; Z5 mãos e pés."],
+["Icterícia do leite materno × da amamentação:","Leite materno: início 3º–5º dia, pico em 2 sem, some em 3–12 sem, bom ganho de peso, não suspender aleitamento|Amamentação: início antes de 24h|Leite materno exige suspender aleitamento|Nenhuma exige fototerapia",0,"Da amamentação: dificuldade de mamada após o 3º dia, corrigir a técnica. Do leite: bom ganho, manter aleitamento."],
+["Exsanguineotransfusão em 48h de vida considera BT:","15–18 mg/dL|17–21 mg/dL|18–24 mg/dL|10–12 mg/dL",1,"24h: >15–18; 48h: >17–21; ≥72h: >18–24 mg/dL."],
+["Também indica exsanguineotransfusão:","Aumento de BT >5 mg/dL ou >0,5 mg/dL/h|Aumento >0,1 mg/dL/h|BT 12 mg/dL em termo|Coombs negativo",0,"Velocidade de elevação rápida indica falha/risco grave."],
+["Faixa de comprimento de onda medida pelo radiômetro na fototerapia:","200–300 nm|400–550 nm|600–700 nm|700–900 nm",1,"Irradiância espectral entre 400 e 550 nm, medida em 5 pontos em retângulo de 30×60 cm."],
+["Cuidado ERRADO durante a fototerapia:","Proteger olhos com cobertura radiopaca|Aferir temperatura a cada 3h|Pesar diariamente|Cobrir o corpo todo com fralda grande",3,"A pele deve ficar exposta; só a genitália é coberta com fralda cortada."],
+["Evento adverso da fototerapia:","Dano à retina e distúrbios de temperatura/perda hídrica|Hipercalemia|Pancreatite|Nenhum conhecido",0,"Também interferência no vínculo mãe-bebê e preocupação com melanoma/câncer de pele (luz azul)."],
+["Alta e seguimento do RN ictérico (SBP):","Alta após 48h, retorno em 48–72h e 1ª consulta até o 5º dia|Alta com 24h|Retorno em 15 dias|Dosar BT só se houver sintomas",0,"Alta somente após 48h de vida, com retorno ambulatorial em 48–72h."],
+["No normograma de Bhutani, risco intermediário ALTO corresponde ao percentil:","<40|40–75|75–95|>95",2,"Intermediário baixo 40–75; intermediário alto 75–95; alto risco >95."],
+["Indicações de BTF antes da alta:","Icterícia nas primeiras 24–36h, incompatibilidade Rh, ABO (mãe O, RN A/B)|Apenas prematuros|Todo RN amamentado|Somente após 7 dias",0,"Estes são os critérios do slide."],
+["Sobre a avaliação visual da icterícia:","Padrão-ouro|Não é confiável, principalmente sob luz artificial e após fototerapia|Substitui a dosagem sérica|Só vale para bilirrubina direta",1,"O padrão-ouro é a bilirrubina sérica; transcutânea é método não invasivo."],
+["Gasometria: pH 7,01, PCO₂ 9, HCO₃ 3. Interpretação:","Acidose respiratória|Acidose metabólica com alcalose respiratória associada|Acidose metabólica compensada adequadamente|Alcalose metabólica",1,"Esperado = 3×1,5+8 = 12,5 ±2 (10,5–14,5). PCO₂ 9 está abaixo: distúrbio respiratório alcalótico associado."],
+["Em acidose metabólica com HCO₃ = 15, PCO₂ esperado (1,5×HCO₃+8 ±2) é:","20|30,5 (28,5–32,5)|15|40",1,"1,5×15+8 = 30,5 ±2."],
+["Em alcalose metabólica com HCO₃ = 30, PCO₂ esperado (HCO₃+15 ±2):","45 ±2|30|60|20",0,"30+15 = 45 ±2."],
+["pH 7,63, PCO₂ 19, HCO₃ 23:","Alcalose respiratória|Alcalose metabólica|Acidose respiratória|Normal",0,"pH alto com PCO₂ baixa e HCO₃ normal."],
+["pH 7,30, PCO₂ 60, HCO₃ 28:","Acidose metabólica|Alcalose metabólica|Acidose respiratória|Alcalose respiratória",2,"pH baixo com PCO₂ alta."],
+["Na pediatria, a maioria das PCR decorre de:","FV súbita|Piora respiratória (hipóxia) ou cardiocirculatória progressiva|Arritmia genética|Trauma",1,"Os ritmos típicos são bradicardia, assistolia e AESP."],
+["Diagnóstico de PCR pediátrica:","Sem respiração e sem pulso (ou FC <60 com hipoperfusão) em até 10 s|FC <100|Inconsciência isolada|Ausência de pulso radial",0,"Checar respiração e pulso simultaneamente por até 10 s."],
+["Pulso central em menores de 1 ano:","Carotídeo|Braquial|Radial|Pedioso",1,"Lactentes: pulso braquial."],
+["Relação compressão:ventilação sem via aérea avançada:","30:2 para 1 e 2 socorristas|30:2 (1 socorrista) e 15:2 (2 socorristas)|15:2 para ambos|5:1",1,"Com via avançada: ventilar a cada 2–3 s sem pausar compressões."],
+["Profundidade das compressões:","≥1/3 do diâmetro AP: ~4 cm lactente, ~5 cm criança|1/2 do AP, 6 cm|2 cm|5 cm lactente e 4 cm criança",0,"Frequência 100–120/min com retorno total do tórax."],
+["Sequência de energias do choque (slide):","2, 4, 6, 8, 10 J/kg|1, 2, 3, 4 J/kg|4 J/kg fixo|360 J",0,"Dose progressiva: 2 → 4 → 6 → 8 → 10 J/kg."],
+["Dose IV de adrenalina na PCR pediátrica:","0,1 mg/kg|0,01 mg/kg (0,1 mL/kg da 1:10.000) a cada 3–5 min|1 mg fixo|0,001 mg/kg",1,"Via endotraqueal: 0,1 mg/kg, dose única."],
+["Assistolia/AESP: conduta inicial:","Choque 2 J/kg|Adrenalina imediatamente e RCP 2 min|Amiodarona|Cardioversão sincronizada",1,"Ritmo não chocável: epinefrina o mais cedo possível."],
+["Amiodarona na PCR com ritmo chocável:","5 mg/kg, podendo repetir; indicada após o 3º choque (slide)|1 mg/kg|0,01 mg/kg|Dose única de 300 mg",0,"Alternativa: lidocaína 1 mg/kg de ataque."],
+["Criança de 8 anos: tubo orotraqueal COM cuff (idade/4 + 3,5):","5,5|6,0|4,5|6,5",0,"8/4 = 2; 2+3,5 = 5,5. Sem cuff seria 6,0."],
+["Piora após IOT. Mnemônico DOPE:","Deslocamento, Obstrução, Pneumotórax, Equipamento|Dor, Oxigênio, Pressão, Edema|Drogas, Ondas, Pulso, ECG|Desidratação, Obesidade, Pneumonia, Edema",0,"Confirmação do posicionamento: capnografia em forma de onda (padrão-ouro)."],
+["NÃO é um dos 6 Hs:","Hipovolemia|Hipóxia|Hipotermia|Hipertensão",3,"Hs: hipovolemia, hipóxia, H⁺, hipo/hipercalemia, hipoglicemia, hipotermia."],
+["Posição das pás do desfibrilador:","Pás devem se tocar|Coração entre elas, afastadas ao menos 3 cm|Ambas na região esternal|Apenas nas costas",1,"Pás não podem se tocar; DEA até 8 anos ou 25 kg com pás pediátricas."],
+["No protocolo SPIKES, a letra P significa:","Percepção|Planejamento|Prognóstico|Paciente",0,"S-Setting, P-Perception, I-Invitation, K-Knowledge, E-Emotions, S-Strategy and Summary."],
+["Na etapa K (Knowledge), o correto é:","Usar termos técnicos|Ser claro, sem jargão nem dureza, falar aos poucos e evitar 'não há mais nada a fazer'|Falar rápido|Omitir prognóstico",1,"Sempre há outras opções, como controle da dor e conforto."],
+["Infecção nosocomial na UTI manifesta-se após:","24 horas|48 horas|72 horas|7 dias",2,"IRAS após 72h; prevalência 5–10% dos internados e 20–30% na UTI."],
+["NÃO é um dos 5 momentos de higienização das mãos:","Antes do contato com o paciente|Antes de procedimento asséptico|Após exposição a fluidos|Antes de sair do hospital",3,"Os 5: antes do contato, antes de procedimento asséptico, após fluidos, após contato, após áreas próximas."],
+["Prevenção de PNM associada à VM em pediatria:","Decúbito elevado 30–45°|Decúbito zero|Preferir VM invasiva|Uso liberal de bloqueador neuromuscular",0,"Também: reduzir tempo de VM, higiene oral, preferir VNI e aspirar secreções."],
+["Bossa serossanguinolenta, cefalo-hematoma e equimoses causam icterícia por:","Defeito de conjugação|Reabsorção de sangue extravascular (causa pré-hepática, indireta)|Obstrução biliar|Defeito do MRP2",1,"Coleções sanguíneas extravasculares aumentam a carga de bilirrubina não conjugada."],
+["Qual causa leva a hiperbilirrubinemia DIRETA?","Hepatites|Síndrome de Gilbert|Crigler-Najjar tipo 1|Hemólise por ABO",0,"Hepatite e cirrose (lesão hepatocelular) e Rotor/Dubin-Johnson elevam a fração direta."],
+["Hipotireoidismo congênito cursa com:","Hiperbilirrubinemia direta|Hiperbilirrubinemia indireta|Acolia fecal obstrutiva|Nenhuma alteração",1,"Reduz a conjugação hepática, elevando a indireta."],
+["Quadro clínico do aumento de bilirrubina não conjugada por hemólise:","Colúria e acolia fecal|Palidez, taquicardia, fadiga, icterícia, sem colúria e sem acolia|Prurido intenso|Hepatomegalia dolorosa",1,"A bilirrubina indireta não é filtrada na urina e as fezes mantêm cor."],
+["A β-glicuronidase intestinal:","Conjuga a bilirrubina|Desconjuga a bilirrubina, favorecendo a circulação êntero-hepática|Converte heme em biliverdina|Degrada a albumina",1,"Aumenta a reabsorção de bilirrubina indireta no intestino do RN."],
+["Na incompatibilidade Rh, os testes de Coombs direto e indireto são:","Ambos negativos|Indireto negativo e direto positivo|Ambos positivos|Direto negativo e indireto positivo",2,"No ABO, o Coombs é negativo ou fracamente positivo."],
+["NÃO é exame complementar da investigação de icterícia neonatal (aula):","Ecocardiograma|Hemograma e reticulócitos|Tipagem sanguínea da mãe e do RN|Prova de Coombs",0,"Lista: BT e frações, hemograma/reticulócitos, tipagem mãe e RN, Coombs."],
+["A exsanguineotransfusão é reservada para:","Toda icterícia fisiológica|Falha grave da fototerapia ou primeira escolha em casos selecionados|Icterícia do leite materno|Incompatibilidade ABO leve",1,"O tratamento principal é a fototerapia."],
+["Fototerapia dupla significa:","Duas sessões diárias|Iluminar a superfície anterior e dorsal ao mesmo tempo|Usar dois radiômetros|Dobrar o tempo de exposição",1,"Maximiza a área de pele exposta aos fótons."],
+["Durante a fototerapia, a solução parenteral e o equipo devem:","Ficar expostos|Ser cobertos com papel alumínio ou extensores impermeáveis à luz|Ser suspensos|Ser trocados a cada hora",1,"Evita a fotodegradação dos componentes."],
+["Primeira prioridade ao encontrar uma criança desacordada:","Iniciar compressões|Garantir a segurança da cena|Checar pulso|Ligar para a família",1,"Depois: testar responsividade (verbal e tátil) e chamar ajuda (SAMU 192 ou carrinho de parada/DEA)."],
+["Com pulso mas sem respiração normal, o correto é:","Compressões imediatas|1 ventilação a cada 2–3 s e checar pulso a cada 2 min; FC <60 inicia RCP|Aguardar|Apenas oxigênio inalatório",1,"Se FC <60/min com hipoperfusão, inicia-se RCP."],
+["Sequência da RCP pediátrica:","A-B-C|C-A-B|B-A-C|A-C-B",1,"Compressões, via aérea, ventilação, em superfície rígida e plana."],
+["Lactente com 2 socorristas: compressão e ventilação:","Técnica dos 2 polegares com mãos envolvendo o tórax; o outro ventila|Uma mão no esterno e outra ventilando|Calcanhar da mão|Só ventilação",0,"Acima de 1 ano usam-se duas mãos na metade inferior do esterno."],
+["Máximo de interrupção das compressões:","30 s|20 s|10 s|2 min",2,"Minimizar pausas; reavaliar ritmo a cada 2 min."],
+["Assistência à ventilação hospitalar inicial:","Bolsa-válvula-máscara com FiO₂ 100%, máscara da ponte nasal ao queixo, técnica C e E|Ar ambiente|Cânula nasal|Máscara menor que a face",0,"A vedação correta evita fuga."],
+["Conforme a aula, adrenalina e via aérea avançada são indicadas a partir de:","Primeiro choque|Segundo choque|Quinto choque|Antes do ritmo",1,"Na assistolia/AESP, adrenalina o mais precoce possível."],
+["Após o choque, deve-se:","Checar pulso por 1 min|Reiniciar compressões imediatamente por 2 min|Aguardar 5 min|Repetir choque",1,"Avisar a equipe antes de aplicar o choque."],
+["Ritmos chocáveis na PCR:","Assistolia e AESP|FV e TV sem pulso|Bradicardia|Taquicardia sinusal",1,"Assistolia e AESP são não chocáveis."],
+["Lidocaína na PCR:","Ataque 1 mg/kg; manutenção 20–50 mcg/kg/min|5 mg/kg|0,01 mg/kg|10 mg/kg",0,"É alternativa à amiodarona."],
+["Tubo 5,5 mm: fixação (cm no lábio superior) = 3× diâmetro:","11 cm|16,5 cm|22 cm|8 cm",1,"3 × 5,5 = 16,5 cm; cuff <20–25 cmH₂O."],
+["A acesso intraósseo pode ser feito em:","Úmero apenas|Tíbia proximal ou distal|Clavícula|Esterno",1,"Indicado se não houver acesso venoso rápido."],
+["SPIKES, etapa S (Setting):","Dar a notícia|Privacidade, celular desligado, envolver 1–2 pessoas importantes|Fazer prognóstico|Perguntar o que sabe",1,"Inclui auto-avaliação, preparo e ajuste do tempo."],
+["Etapa Perception:","Informar o diagnóstico|Perguntar o que o paciente sabe antes de contar e corrigir mal-entendidos|Oferecer estratégia|Acolher choro",1,"Use perguntas abertas."],
+["Etapa Empathy:","Sofrer com o outro, e não sofrer como o outro|Evitar o toque|Evitar silêncio|Falar rápido",0,"Reações variam: choro, raiva, negação, silêncio."],
+["Infecção mais comum na UTI segundo a aula:","Corrente sanguínea|Trato respiratório (63,5%)|Urinária|Pele",1,"Pneumonia é a mais prevalente."],
+["Fator que contribui para infecção hospitalar:","Uso racional de ATB|Mãos dos profissionais e materiais contaminados|Isolamento|Educação continuada",1,"Também uso inadequado de ATB e flora do paciente."],
+["pH 7,50, PCO₂ 30, HCO₃ 22:","Alcalose metabólica|Alcalose respiratória|Acidose respiratória|Normal",1,"pH alto com PCO₂ baixa e HCO₃ normal."],
+["pH 7,30, PCO₂ 26, HCO₃ 12. Esperado (1,5×12+8 ±2) = 26:","Acidose metabólica com compensação adequada|Acidose metabólica com acidose respiratória|Acidose metabólica com alcalose respiratória|Acidose respiratória",0,"PCO₂ 26 está dentro de 24–28."],
+["pH 7,48, PCO₂ 50, HCO₃ 36. Esperado (HCO₃+15 ±2) = 51:","Alcalose metabólica compensada adequadamente|Acidose respiratória aguda|Alcalose respiratória|Acidose metabólica",0,"PCO₂ 50 está dentro de 49–53."],
+["Valor de referência da PaCO₂ no quadro:","45–55|35–45|20–30|60–80",1,"Referências: pH 7,35–7,45; PaO₂ 80–100; HCO₃ 21–28; SatO₂ >90%."],
+["pH muito baixo, PCO₂ 70, HCO₃ 3, BE −38, SatO₂ 50%:","Acidose metabólica pura|Acidose respiratória pura|Acidose mista grave|Alcalose mista",2,"HCO₃ muito baixo (metabólica) e PCO₂ alta (respiratória) somam-se."],
+["Base excess (BE) fortemente negativo indica:","Alcalose metabólica|Déficit de base, ou seja, acidose metabólica|Hipoxemia isolada|Hipercapnia",1,"BE reflete o componente metabólico."],
+["Cardiopatia com shunt esquerda-direita é, em geral:","Cianótica|Acianótica (CIA, CIV, PCA)|Sempre ductodependente|Rara",1,"Cianose ocorre com shunt direita-esquerda."],
+["Tetralogia de Fallot inclui:","CIV, obstrução da via de saída do VD, dextroposição da aorta, hipertrofia de VD|CIA, coarctação, PCA, hipertrofia de VE|Atresia tricúspide e TGA|Estenose aórtica e CIV",0,"O grau da obstrução pulmonar define a cianose."],
+["Radiografia clássica da Tetralogia de Fallot:","Coração em bota|Coração globoso em moringa|Cardiomegalia maciça|Sinal do 3",0,"Ponta elevada e pouca vascularização pulmonar."],
+["Crise hipercianótica: medida inicial:","Posição genupeitoral, oxigênio e sedação/morfina|Furosemida|Posição supina rígida|Digoxina",0,"Aumenta o retorno e a resistência sistêmica; propranolol e volume também são usados."],
+["Tratamento de Fallot:","Clínico definitivo|Cirúrgico, idealmente entre 3 e 6 meses; prostaglandina E1 se cianose importante|Apenas seguimento|Cateterismo sempre",1,"A PGE1 mantém a patência do canal arterial."],
+["Na TGA:","Aorta sai do VD e pulmonar do VE, circulações em paralelo, cianose precoce|Aorta sai do VE e pulmonar do VD|Há ausência da válvula tricúspide|É acianótica",0,"Sobrevivência depende de mistura (CIA, CIV, canal)."],
+["Procedimento de Rashkind e cirurgia definitiva da TGA:","Atriosseptostomia com balão; troca arterial (Jatene)|Ligadura do canal; Fontan|Valvuloplastia; Blalock|Pericardiectomia; transplante",0,"Rashkind é paliativo e cria mistura."],
+["Na atresia tricúspide:","Não há conexão AD-VD; o sangue passa por comunicação interatrial; usa-se PGE1 se cianose grave|Há estenose mitral|Shunt esquerda-direita puro|Aorta sai do VD",0,"Septostomia atrial com balão pode ser necessária."],
+["Tipo mais comum de CIA e fechamento percutâneo:","Seio venoso; sempre cirúrgico|Ostium secundum; percutâneo nos defeitos maiores (~>10 mm)|Ostium primum; percutâneo|Seio coronário",1,"Pequenas CIAs podem ser apenas acompanhadas."],
+["Achado clássico da CIA ao exame:","Sopro sistólico por hiperfluxo pulmonar, em geral assintomática|Sopro contínuo|Cianose precoce|Pulsos femorais ausentes",0,"Radiografia: cardiomegalia e aumento do fluxo pulmonar."],
+["Sobre a CIV:","30–50% dos pequenos defeitos fecham espontaneamente, em geral nos primeiros anos|Nunca fecham|São sempre cirúrgicas|Causam cianose inicial",0,"Defeitos moderados a grandes podem evoluir com hipertensão pulmonar."],
+["Sinais de CIV grande no lactente:","Taquipneia, dificuldade nas mamadas, déficit de crescimento, hepatomegalia|Cianose isolada|Pulsos femorais ausentes|Assintomático sempre",0,"Sinais de insuficiência cardíaca por hiperfluxo."],
+["Fechamento do canal arterial após o nascimento:","Funcional em 24–48 h e anatômico em 1–2 semanas; mais tardio em prematuros|Imediato|Após 1 ano|Nunca",0,"Prematuros têm menos tecido muscular no canal."],
+["Em PCA de prematuro, fecha o canal:","Prostaglandina E1|Indometacina/ibuprofeno|Propranolol|Digoxina",1,"PGE1 mantém o canal em cardiopatias ductodependentes."],
+["PCA com grande repercussão:","Sopro contínuo e pulsos amplos|Sopro diastólico|Pulsos femorais fracos|Sem sintomas sempre",0,"Depende do calibre do canal e da resistência pulmonar."],
+["Coarctação da aorta sugere:","Pulsos femorais diminuídos e PA maior em membros superiores|Cianose|Sopro contínuo|Pulsos amplos nos pés",0,"É cardiopatia obstrutiva do lado esquerdo."],
+["Cardiopatia mais associada à Síndrome de Down:","Defeito do septo atrioventricular e CIV|Fallot isolado|Coarctação|Atresia tricúspide",0,"Também CIA e PCA."],
+["Em icterícia prolongada, é importante:","Diferenciar bilirrubina direta de indireta|Suspender aleitamento|Ignorar|Só observar",0,"Direta elevada sugere colestase e exige investigação."],
+["Entre os agentes comuns de infecção hospitalar está:","Acinetobacter baumannii|Treponema pallidum|Vibrio cholerae|Rickettsia",0,"Também S. aureus, Pseudomonas, Klebsiella e E. coli."],
+["Com via aérea avançada na RCP:","1 ventilação a cada 2–3 s sem pausar compressões|30:2|Sem ventilar|5:1",0,"Compressões contínuas 100–120/min."],
+["Etapa final do SPIKES (Strategy and Summary):","Propor tratamento/seguimento, compartilhar decisões e garantir o próximo passo|Dar a notícia|Convidar|Avaliar percepção",0,"Não deixar o paciente solto."]
+];
+Q.forEach(q=>{const o=q[1].split("|"),c=o[q[2]];for(let k=o.length-1;k>0;k--){const j=Math.floor(Math.random()*(k+1));[o[k],o[j]]=[o[j],o[k]]}q[1]=o.join("|");q[2]=o.indexOf(c)});
+const L="ABCD",A=document.getElementById("a");let i=0,r=[],sel=null;
+function start(){A.innerHTML=`<h1>Simulado de Pediatria</h1><div class="c">${Q.length} questões difíceis: icterícia neonatal, gasometria, PALS, comunicação (SPIKES) e infecção nosocomial. Responda todas; no final veja acertos, erros e explicações.</div><button class="p" onclick="show()">Começar</button>`}
+function show(){sel=null;const q=Q[i],o=q[1].split("|");A.innerHTML=`<small>Questão ${i+1} de ${Q.length}</small><div class="bar"><i style="width:${i/Q.length*100}%"></i></div><div class="c"><b>${q[0]}</b>${o.map((t,k)=>`<button id="o${k}" onclick="pick(${k})">${L[k]}) ${t}</button>`).join("")}</div><button class="p" id="n" onclick="nx()" disabled>${i==Q.length-1?"Finalizar":"Próxima"}</button>`}
+function pick(k){sel=k;for(let j=0;j<4;j++)document.getElementById("o"+j).className=j==k?"s":"";document.getElementById("n").disabled=false}
+function nx(){r[i]=sel;i++;i<Q.length?show():fim()}
+function fim(){const w=Q.map((q,k)=>k).filter(k=>r[k]!=Q[k][2]),h=Q.length-w.length;
+A.innerHTML=`<h1>Resultado</h1><div class="c"><b class="ok">Acertos: ${h}</b><br><b class="no">Erros: ${w.length}</b><br>Aproveitamento: ${Math.round(h/Q.length*100)}%</div><h2>Todas as respostas</h2>`+Q.map((q,k)=>{const o=q[1].split("|"),ok=r[k]==q[2];return `<div class="c"><small>${k+1}. <span class="${ok?"ok":"no"}">${ok?"Correta":"Errada"}</span></small><br><b>${q[0]}</b><br>Sua resposta: <span class="${ok?"ok":"no"}">${L[r[k]]}) ${o[r[k]]}</span>${ok?"":`<br>Correta: <span class="ok">${L[q[2]]}) ${o[q[2]]}</span><br><span class="no">Por que está errado:</span> a alternativa ${L[r[k]]} não corresponde ao conteúdo da aula.<br><span class="ok">Explicação correta:</span> ${q[3]}`}</div>`}).join("")+`<button class="p" onclick="i=0;r=[];start()">Refazer</button>`}
+start();
+</script></body></html>
